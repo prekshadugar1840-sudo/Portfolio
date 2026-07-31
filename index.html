@@ -511,15 +511,20 @@
   }
 
   let balls = [];
+  let cssW = 0, cssH = 0;
 
   function resize() {
-    canvas.width  = cont.offsetWidth;
-    canvas.height = cont.offsetHeight;
+    const dpr = window.devicePixelRatio || 1;
+    cssW = cont.offsetWidth;
+    cssH = cont.offsetHeight;
+    canvas.width  = Math.round(cssW * dpr);
+    canvas.height = Math.round(cssH * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
   function spawnBalls() {
     balls = [];
-    const W = canvas.width;
+    const W = cssW;
     const mobile = isMobileLayout();
     LABELS.forEach((lines, i) => {
       const r  = mobile ? (26 + Math.random() * 10) : (68 + Math.random() * 16);
@@ -612,7 +617,7 @@
   }
 
   function loop() {
-    const W = canvas.width, H = canvas.height;
+    const W = cssW, H = cssH;
     drawBackground(W, H);
     // check if all balls have settled past halfway
     if (fallen < LABELS.length && balls.length === LABELS.length) {
