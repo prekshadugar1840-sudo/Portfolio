@@ -609,6 +609,9 @@
     #left-nav, .contacts-sidebar { display: none !important; }
     body { height: auto !important; overflow-x: hidden; }
     .page { width: 100% !important; height: auto !important; }
+    .earth-mask-img { display: none !important; }
+    .ia-wireframes-fold { background: #F4FBFF !important; }
+    .fold14-wrap { padding-top: 32px !important; }
 
     /* Flatten every absolutely-positioned fold into normal document flow */
     .page * { box-sizing: border-box !important; }
@@ -917,7 +920,7 @@
 
 
     <!-- Earth mask image -->
-    <img src="cpf/cpf earth mask.png" style="position:absolute;left:-10px;top:428px;width:1920px;bottom:0;height:calc(100% - 428px);object-fit:cover;opacity:0.5;">
+    <img class="earth-mask-img" src="cpf/cpf earth mask.png" style="position:absolute;left:-10px;top:428px;width:1920px;bottom:0;height:calc(100% - 428px);object-fit:cover;opacity:0.5;">
 
     <!-- Yellow ellipse glow -->
     <div style="position:absolute;left:57.66%;top:36.47%;right:0;bottom:-3.55%;background:radial-gradient(47.54% 47.54% at 50.41% 52.46%, #F4FF02 0%, rgba(244,255,2,0) 100%);opacity:0.3;pointer-events:none;"></div>
@@ -1104,7 +1107,7 @@
   </div>
 
   <!-- ── FOLD 9: Information Architecture & Wireframes ── -->
-  <div style="position:absolute;left:0;top:7898px;width:1920px;height:823px;background:#222222;z-index:1;">
+  <div class="ia-wireframes-fold" style="position:absolute;left:0;top:7898px;width:1920px;height:823px;background:#222222;z-index:1;">
     <!-- light blue band: covers full IA section + top half of wireframes -->
     <div style="position:absolute;left:0;right:0;top:-5px;height:766px;background:#F4FBFF;"></div>
     <!-- content container: left:54px, top:37px (8220-8183), flex column gap:51px -->
@@ -1134,7 +1137,7 @@
   <img src="cpf/fold 13.png?v=2" style="position:absolute;left:0;top:14314px;width:1920px;height:948px;object-fit:fill;display:block;">
 
   <!-- ── FOLD 14 ── -->
-  <div style="position:absolute;left:0;top:15262px;width:1920px;height:4313px;background:#222222;">
+  <div class="fold14-wrap" style="position:absolute;left:0;top:15262px;width:1920px;height:4313px;background:#222222;">
     <img src="cpf/fold 14.png" style="position:absolute;top:200px;left:0;width:1920px;height:3963px;object-fit:fill;display:block;">
   </div>
 
