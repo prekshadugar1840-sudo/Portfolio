@@ -19,6 +19,20 @@
     background: #FFF5EB;
   }
 
+  /* Nav lives outside .page so it can be truly position:fixed (an ancestor's
+     transform:scale would otherwise turn "fixed" into "absolute"). Its own
+     transform:scale mirrors .page's, keeping the same 1920-canvas coordinate
+     system for everything inside it. */
+  .nav-fixed-wrap {
+    position: fixed;
+    top: 0; left: 0;
+    width: 1920px;
+    transform-origin: top left;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .nav-fixed-wrap > * { pointer-events: auto; }
+
   /* ── LEFT NAV ── */
   .col-preksha {
     position: absolute;
@@ -339,10 +353,9 @@
   <div class="mobile-bottombar-copy">©</div>
 </div>
 
-<div class="page">
-
+<div class="nav-fixed-wrap">
   <!-- ── LEFT NAV ── -->
-  <div id="left-nav" style="position:absolute;left:0;top:0;bottom:0;width:190px;z-index:10;">
+  <div id="left-nav" style="position:absolute;left:0;top:0;bottom:0;width:190px;">
     <div class="col-preksha" onclick="location.href='index.html'" style="cursor:pointer;">
       <span class="preksha-label">PREKSHA</span>
     </div>
@@ -356,9 +369,6 @@
       <a href="about.html" class="nav-label">ABOUT</a>
     </div>
   </div>
-
-  <!-- ── PAGE LABEL ── -->
-  <div class="page-label">INFEEDO</div>
 
   <!-- ── RIGHT SIDEBAR ── -->
   <div class="contacts-sidebar">
@@ -376,6 +386,12 @@
     </a>
     <div class="copyright-bar"><span>©</span></div>
   </div>
+</div>
+
+<div class="page">
+
+  <!-- ── PAGE LABEL ── -->
+  <div class="page-label">INFEEDO</div>
 
   <!-- ── FOLD 1: Hero ── -->
   <div class="hero-breadcrumb" style="position:absolute;left:238px;top:40px;font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:18px;letter-spacing:0.08em;color:rgba(0,0,0,0.55);z-index:5;"><a href="work.html" class="breadcrumb-work-link" style="color:rgba(0,0,0,0.55);">WORK</a> / INFEEDO</div>
@@ -708,9 +724,6 @@
     const rightNav = document.querySelector('.contacts-sidebar');
     const scale = document.documentElement.clientWidth / 1920;
     const scrollY = window.scrollY;
-    const navTop = scrollY / scale;
-    const navHeight = window.innerHeight / scale;
-
     const inHero = scrollY < HERO_HEIGHT_PX * scale;
 
     if (inHero && !navVisible) {
@@ -730,15 +743,6 @@
         el.style.pointerEvents = 'none';
       });
     }
-
-    if (leftNav) {
-      leftNav.style.top = navTop + 'px';
-      leftNav.style.height = navHeight + 'px';
-    }
-    if (rightNav) {
-      rightNav.style.top = navTop + 'px';
-      rightNav.style.height = navHeight + 'px';
-    }
   }
 
   function scaleToFit() {
@@ -753,6 +757,10 @@
     page.style.transformOrigin = 'top left';
     page.style.transform = `scale(${scale})`;
     document.body.style.height = (22550 * scale) + 'px';
+    const navHeight = window.innerHeight / scale;
+    const navWrap = document.querySelector('.nav-fixed-wrap');
+    navWrap.style.transform = `scale(${scale})`;
+    navWrap.style.height = navHeight + 'px';
     stickyNav();
     document.querySelectorAll('.nav-label, .work-label').forEach(el => { el.style.top = (window.innerHeight / 2 / scale) + 'px'; });
     const pl = document.querySelector('.preksha-label'); if (pl) pl.style.top = (window.innerHeight / 2 / scale) + 'px';
@@ -760,7 +768,7 @@
 
   scaleToFit();
   window.addEventListener('resize', scaleToFit);
-  window.addEventListener('scroll', stickyNav);
+  window.addEventListener('scroll', stickyNav, { passive: true });
 </script>
 </body>
 </html>

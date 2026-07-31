@@ -8,6 +8,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
   @view-transition { navigation: auto; }
+  ::view-transition-group(*) { animation-duration: 0.45s; }
+  ::view-transition-old(root), ::view-transition-new(root) {
+    animation-duration: 0.45s;
+    animation-timing-function: ease-in-out;
+  }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {

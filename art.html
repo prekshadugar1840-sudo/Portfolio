@@ -7,6 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
   @view-transition { navigation: auto; }
+  ::view-transition-group(*) { animation-duration: 0.45s; }
+  ::view-transition-old(root), ::view-transition-new(root) {
+    animation-duration: 0.45s;
+    animation-timing-function: ease-in-out;
+  }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
@@ -24,6 +29,20 @@
     height: 3257px;
     background: #FFF5EB;
   }
+
+  /* Nav lives outside .page so it can be truly position:fixed (an ancestor's
+     transform:scale would otherwise turn "fixed" into "absolute"). Its own
+     transform:scale mirrors .page's, keeping the same 1920-canvas coordinate
+     system for everything inside it. */
+  .nav-fixed-wrap {
+    position: fixed;
+    top: 0; left: 0;
+    width: 1920px;
+    transform-origin: top left;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .nav-fixed-wrap > * { pointer-events: auto; }
 
   /* ── LEFT PANEL ── */
 
@@ -130,9 +149,8 @@
   /* ── RIGHT CONTACTS SIDEBAR ── */
   .contacts-sidebar {
     position: absolute;
-    right: 0; top: 0;
+    right: 0; top: 0; bottom: 0;
     width: 50px;
-    height: 3257px;
     background: #FFF5EB;
     border-left: 1px solid rgba(0,0,0,0.5);
     z-index: 10;
@@ -361,8 +379,7 @@
   <div class="mobile-bottombar-copy">©</div>
 </div>
 
-<div class="page">
-
+<div class="nav-fixed-wrap">
   <!-- ── LEFT NAV ── -->
   <div class="col-preksha" onclick="location.href='index.html'" style="cursor:pointer;">
     <span class="preksha-label">PREKSHA</span>
@@ -381,6 +398,26 @@
     <a href="about.html" class="col-overlay"></a>
     <span class="nav-label">ABOUT</span>
   </div>
+
+  <!-- ── RIGHT SIDEBAR ── -->
+  <div class="contacts-sidebar">
+    <a href="https://www.behance.net/prekshadugar" target="_blank" class="social-link" title="Behance">
+      <svg viewBox="0 0 24 24"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.513-1.987-5.513-5.998 0-4.013 2.357-6.002 5.424-6.002 3.062 0 4.97 1.973 5.346 4.975.07.5.097 1.096.094 1.91H15.22c.138 2.4 1.611 2.54 2.397 2.54.737 0 1.38-.432 1.59-1.425h4.52zm-4.738-3.637c-.094-1.54-1.033-2.19-2.044-2.19-1.205 0-1.967.876-2.073 2.19h4.117zM8.604 10.31c1.234-.31 2.397-.814 2.397-2.5C11.001 5.5 9.5 4 6.5 4H0v16h7c3 0 5-1.5 5-4 0-2-1.396-3.19-3.396-3.69zm-4.604-4h2.5c.829 0 1.5.671 1.5 1.5S7.329 9.31 6.5 9.31H4V6.31zm3 9H4v-3h3c.829 0 1.5.671 1.5 1.5S7.829 15.31 7 15.31z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/prekshadugar/" target="_blank" class="social-link" title="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="mailto:prekshadugar1840@gmail.com" class="sidebar-text">
+      <span>SEND E-MAIL</span>
+    </a>
+    <a href="#" class="sidebar-text">
+      <span class="no-hover-text">MADE WITH LOVE, PEER PRESSURE & CLAUDE</span>
+    </a>
+    <div class="copyright-bar"><span>©</span></div>
+  </div>
+</div>
+
+<div class="page">
 
   <!-- ── ART IMAGES ── -->
 
@@ -415,24 +452,6 @@
   <img class="art-img" src="art/art_1931.jpg" style="left:640px; top:2158px; width:780px; height:559px;" alt="Art">
   <img class="art-img" src="art/art_1942.jpg" style="left:1040px; top:2748px; width:780px; height:473px;" alt="Art">
 
-
-  <!-- ── RIGHT SIDEBAR ── -->
-  <div class="contacts-sidebar">
-    <a href="https://www.behance.net/prekshadugar" target="_blank" class="social-link" title="Behance">
-      <svg viewBox="0 0 24 24"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.513-1.987-5.513-5.998 0-4.013 2.357-6.002 5.424-6.002 3.062 0 4.97 1.973 5.346 4.975.07.5.097 1.096.094 1.91H15.22c.138 2.4 1.611 2.54 2.397 2.54.737 0 1.38-.432 1.59-1.425h4.52zm-4.738-3.637c-.094-1.54-1.033-2.19-2.044-2.19-1.205 0-1.967.876-2.073 2.19h4.117zM8.604 10.31c1.234-.31 2.397-.814 2.397-2.5C11.001 5.5 9.5 4 6.5 4H0v16h7c3 0 5-1.5 5-4 0-2-1.396-3.19-3.396-3.69zm-4.604-4h2.5c.829 0 1.5.671 1.5 1.5S7.329 9.31 6.5 9.31H4V6.31zm3 9H4v-3h3c.829 0 1.5.671 1.5 1.5S7.829 15.31 7 15.31z"/></svg>
-    </a>
-    <a href="https://www.linkedin.com/in/prekshadugar/" target="_blank" class="social-link" title="LinkedIn">
-      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-    </a>
-    <a href="mailto:prekshadugar1840@gmail.com" class="sidebar-text">
-      <span>SEND E-MAIL</span>
-    </a>
-    <a href="#" class="sidebar-text">
-      <span class="no-hover-text">MADE WITH LOVE, PEER PRESSURE & CLAUDE</span>
-    </a>
-    <div class="copyright-bar"><span>©</span></div>
-  </div>
-
 </div>
 <script>
   function isMobileLayout() { return document.documentElement.clientWidth <= 768; }
@@ -449,7 +468,9 @@
     page.style.transformOrigin = 'top left';
     page.style.transform = `scale(${scale})`;
     document.body.style.height = (3257 * scale) + 'px';
-    stickyNav();
+    const navWrap = document.querySelector('.nav-fixed-wrap');
+    navWrap.style.transform = `scale(${scale})`;
+    navWrap.style.height = (window.innerHeight / scale) + 'px';
     document.querySelectorAll('.nav-label, .art-label').forEach(el => { el.style.top = (window.innerHeight / 2 / scale) + 'px'; });
     const pl = document.querySelector('.preksha-label'); if (pl) pl.style.top = (window.innerHeight / 2 / scale) + 'px';
   }
@@ -469,20 +490,6 @@
       img.classList.remove('hovered');
     });
   });
-
-  function stickyNav() {
-    if (isMobileLayout()) return;
-    const scale = document.documentElement.clientWidth / 1920;
-    const scrollY = window.scrollY;
-    const navTop = scrollY / scale;
-    const navHeight = window.innerHeight / scale;
-    const navCols = document.querySelectorAll('.col-preksha, .col-work, .col-art, .col-about, .contacts-sidebar');
-    navCols.forEach(col => {
-      col.style.top = navTop + 'px';
-      col.style.height = navHeight + 'px';
-    });
-  }
-  window.addEventListener('scroll', stickyNav);
 </script>
 </body>
 </html>
