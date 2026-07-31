@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vedanta Spark — Preksha Dugar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Fraunces:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body { overflow-x: hidden; background: #fff; }
+
+  .page {
+    position: relative;
+    width: 1920px;
+    height: 14948px;
+    background: #FFF5EB;
+  }
+
+  /* ── LEFT NAV ── */
+  .col-preksha {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 55px;
+    background: #FFF5EB;
+    border-right: 1px solid rgba(0,0,0,0.5);
+    z-index: 10;
+  }
+  .preksha-label {
+    position: absolute;
+    top: 450px;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    white-space: nowrap;
+    font-family: 'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif;
+    font-weight: 500;
+    font-size: 36px;
+    letter-spacing: 0.02em;
+    color: #000;
+    user-select: none;
+  }
+  .col-work {
+    position: absolute;
+    left: 55px; top: 0; bottom: 0;
+    width: 45px;
+    background: #FFF5EB;
+    border-right: 1px solid rgba(0,0,0,0.5);
+    z-index: 10;
+  }
+  .col-art {
+    position: absolute;
+    left: 100px; top: 0; bottom: 0;
+    width: 45px;
+    background: #FFF5EB;
+    border-right: 1px solid rgba(0,0,0,0.5);
+    z-index: 10;
+  }
+  .col-about {
+    position: absolute;
+    left: 145px; top: 0; bottom: 0;
+    width: 45px;
+    background: #FFF5EB;
+    border-right: 1px solid rgba(0,0,0,0.5);
+    z-index: 10;
+  }
+  .col-work:hover, .col-art:hover, .col-about:hover { background: #000; cursor: pointer; }
+  .col-work:hover .work-label, .col-art:hover .nav-label, .col-about:hover .nav-label { color: #fff; }
+  .social-link:hover { background: #000 !important; }
+  .social-link:hover svg { fill: #fff; }
+  .sidebar-text:hover { background: #000 !important; }
+  .sidebar-text:hover span { color: #fff; }
+
+  .nav-label {
+    position: absolute;
+    top: 450px;
+    left: 50%;
+    width: 100px;
+    display: block;
+    text-align: center;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    white-space: nowrap;
+    font-family: 'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #000;
+    text-decoration: none;
+  }
+  .work-label {
+    position: absolute;
+    top: 450px;
+    left: 50%;
+    width: 100px;
+    display: block;
+    text-align: center;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    white-space: nowrap;
+    font-family: 'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+    text-decoration: none;
+  }
+
+  /* ── RIGHT SIDEBAR ── */
+  .contacts-sidebar {
+    position: absolute;
+    right: 0; top: 0;
+    width: 50px;
+    bottom: 0;
+    background: #FFF5EB;
+    border-left: 1px solid rgba(0,0,0,0.5);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+  }
+  .social-link {
+    width: 50px; height: 50px;
+    display: flex; align-items: center; justify-content: center;
+    border-bottom: 1px solid #000;
+    text-decoration: none; color: #000; background: #FFF5EB;
+    flex-shrink: 0;
+  }
+  .social-link svg { width: 18px; height: 18px; fill: #000; }
+  .sidebar-text {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    border-bottom: 1px solid #000;
+    cursor: pointer; text-decoration: none; overflow: hidden;
+  }
+  .sidebar-text span {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.12em;
+    color: #000; white-space: nowrap;
+    transform: rotate(-90deg); display: block; text-align: center;
+  }
+  .copyright-bar {
+    width: 50px; height: 50px; background: #FFF5EB;
+    border-top: 1px solid #000;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .copyright-bar span { font-family: 'Inter', sans-serif; font-size: 20px; color: #000; }
+  .breadcrumb-work-link { text-decoration: none; }
+  .breadcrumb-work-link:hover { text-decoration: underline; }
+
+  /* ── MOBILE NAV (top bar + bottom bar, replaces side columns) ── */
+  .mobile-topbar, .mobile-bottombar { display: none; }
+
+  @media (max-width: 768px) {
+    #left-nav, .contacts-sidebar { display: none !important; }
+    body { height: auto !important; overflow-x: hidden; }
+    .page { width: 100% !important; height: auto !important; padding: 100px 0 60px !important; }
+    .page > div { padding-left: 20px !important; padding-right: 20px !important; }
+
+    .page * { box-sizing: border-box !important; }
+    .page [style*="position:absolute"],
+    .page [style*="position: absolute"] {
+      position: static !important;
+      left: auto !important; right: auto !important;
+      top: auto !important; bottom: auto !important;
+    }
+    .page [style*="width:"] { width: 100% !important; max-width: 100% !important; }
+    .page [style*="height:"] { height: auto !important; }
+    .page [style*="flex-direction:row"],
+    .page [style*="flex-direction: row"] { flex-direction: column !important; align-items: flex-start !important; }
+    .page [style*="padding:"] { padding: 32px 0 !important; }
+    .page [style*="gap:"] { gap: 20px !important; }
+    .page img { width: 100% !important; height: auto !important; display: block; }
+    .page img[style*="width:54px"] { width: 32px !important; height: 32px !important; }
+    /* Pill/tag badges: shrink back to content size instead of stretching full-width, let their row wrap */
+    .page [style*="border-radius"] { width: auto !important; max-width: none !important; flex-shrink: 0 !important; padding: 8px 24px !important; }
+    .page [style*="flex-direction:row"]:has([style*="border-radius"]) { flex-direction: row !important; flex-wrap: wrap !important; }
+    /* Icon + heading rows: keep icon inline to the left of the text instead of stacking above it */
+    .page [style*="flex-direction:row"]:has(> img[style*="width:54px"]) { flex-direction: row !important; align-items: flex-start !important; }
+    /* ROLE/YEAR row: keep side by side instead of stacking */
+    .page [style*="flex-direction:row"].meta-grid { flex-direction: row !important; gap: 20px !important; }
+    .meta-grid > div { width: auto !important; flex: 1 1 0 !important; }
+    /* More breathing room: tags -> meta grid gap, and bottom of the About fold before the next section */
+    .page [style*="gap:"].info-bar-row { gap: 40px !important; }
+    .about-fold { padding-top: 32px !important; padding-bottom: 32px !important; }
+    /* Space between the Objectives intro paragraph and the first challenge card below it */
+    .objectives-header-row { margin-bottom: 32px !important; }
+
+    .credits-footer-fold { padding: 32px 20px !important; }
+    .hero-breadcrumb { position: static !important; font-size: 14px !important; display: block; margin-bottom: 12px; }
+    /* Card grids that rely purely on absolute-position coordinates for desktop layout: stack with real spacing on mobile */
+    .stacked-items {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 32px !important;
+      height: auto !important;
+      position: static !important;
+      margin-top: 32px !important;
+    }
+    /* Credits section: tighter list spacing + smaller, more footer-appropriate type sizes */
+    .credits-list { gap: 16px !important; }
+    .credits-footer-fold [style*="font-size:24px"][style*="opacity:0.7"] { font-size: 14px !important; line-height: 1.4 !important; }
+    .credits-footer-fold [style*="font-size:24px"]:not([style*="opacity:0.7"]) { font-size: 18px !important; line-height: 1.3 !important; }
+    .credits-footer-fold [style*="font-size:20px"] { font-size: 14px !important; line-height: 1.4 !important; }
+    .credits-footer-fold button { margin-top: 32px !important; }
+    .credits-footer-fold [style*="rotate(45deg)"] { display: none !important; }
+    /* Reduce oversized desktop heading sizes for mobile readability */
+    .page [style*="font-size:77px"] { font-size: 40px !important; line-height: 1.2 !important; }
+    .page [style*="font-size:64px"] { font-size: 32px !important; line-height: 1.3 !important; }
+    .page [style*="font-size:48px"] { font-size: 26px !important; line-height: 1.3 !important; }
+    .page [style*="font-size:32px"] { font-size: 22px !important; line-height: 1.3 !important; }
+    .credits-footer-fold [style*="font-size:32px"] { font-size: 16px !important; line-height: 1.4 !important; }
+
+    /* Nested section backgrounds (not direct children of .page): break out of their padded parent so bg reaches the screen edge, text stays inset */
+    .page div [style*="background:"]:not([style*="border-radius"]) {
+      margin-left: -20px !important;
+      margin-right: -20px !important;
+      width: calc(100% + 40px) !important;
+      max-width: calc(100% + 40px) !important;
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+
+    .mobile-topbar {
+      display: block;
+      position: fixed; top: 0; left: 0;
+      width: 100vw; max-width: 100vw;
+      background: #FFF5EB;
+      border-bottom: 1px solid rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+    .mobile-topbar-logo {
+      display: flex; align-items: center; justify-content: center;
+      height: 44px;
+      border-bottom: 1px solid rgba(0,0,0,0.5);
+      font-family: 'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif;
+      font-weight: 500; font-size: 18px; letter-spacing: 0.06em;
+      color: #000; cursor: pointer;
+    }
+    .mobile-menu-toggle {
+      display: flex; align-items: center; justify-content: center;
+      width: 100%; height: 44px;
+      border-bottom: 1px solid rgba(0,0,0,0.5);
+      background: none; border-left: none; border-right: none; border-top: none; padding: 0;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mobile-menu-toggle img { display: block; width: auto !important; height: auto !important; }
+
+    .mobile-topbar-menu {
+      display: none;
+      flex-direction: column;
+      border-top: 1px solid rgba(0,0,0,0.5);
+    }
+    .mobile-topbar.menu-open .mobile-topbar-menu { display: flex; }
+    .mobile-topbar-row {
+      display: flex; align-items: center; justify-content: center;
+      height: 44px;
+      border-bottom: 1px solid rgba(0,0,0,0.15);
+      font-family: 'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif;
+      text-decoration: none; color: #000;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mobile-topbar-row:last-child { border-bottom: none; }
+    .mobile-topbar-link { font-weight: 400; font-size: 13px; letter-spacing: 0.14em; }
+    .mobile-topbar-link.active { font-weight: 700; background: rgba(0,0,0,0.05); }
+
+    .mobile-bottombar {
+      display: flex;
+      position: fixed; bottom: 0; left: 0;
+      width: 100vw; max-width: 100vw;
+      height: 44px;
+      background: #FFF5EB;
+      border-top: 1px solid rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+    .mobile-bottombar-icon {
+      width: 44px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      border-right: 1px solid rgba(0,0,0,0.15);
+      color: #000; text-decoration: none;
+    }
+    .mobile-bottombar-icon svg { width: 16px; height: 16px; fill: #000; }
+    .mobile-bottombar-email {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
+      color: #000; text-decoration: none;
+      border-right: 1px solid rgba(0,0,0,0.15);
+    }
+    .mobile-bottombar-copy {
+      width: 44px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; color: #000;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── MOBILE NAV (top bar = left panel, bottom bar = right panel) ── -->
+<div class="mobile-topbar" id="mobileTopbar">
+  <div class="mobile-topbar-logo" onclick="location.href='index.html'">PREKSHA</div>
+  <button class="mobile-menu-toggle" onclick="const open=document.getElementById('mobileTopbar').classList.toggle('menu-open'); document.getElementById('menuToggleIcon').src = open ? 'cross.svg' : 'hamburger.svg';" aria-label="Toggle menu">
+    <img id="menuToggleIcon" src="hamburger.svg" alt="" width="16" height="16">
+  </button>
+  <div class="mobile-topbar-menu">
+    <a href="work.html" class="mobile-topbar-row mobile-topbar-link active">WORK</a>
+    <a href="art.html" class="mobile-topbar-row mobile-topbar-link">ART</a>
+    <a href="about.html" class="mobile-topbar-row mobile-topbar-link">ABOUT</a>
+  </div>
+</div>
+<div class="mobile-bottombar">
+  <a href="https://www.behance.net/prekshadugar" target="_blank" class="mobile-bottombar-icon" title="Behance">
+    <svg viewBox="0 0 24 24"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.513-1.987-5.513-5.998 0-4.013 2.357-6.002 5.424-6.002 3.062 0 4.97 1.973 5.346 4.975.07.5.097 1.096.094 1.91H15.22c.138 2.4 1.611 2.54 2.397 2.54.737 0 1.38-.432 1.59-1.425h4.52zm-4.738-3.637c-.094-1.54-1.033-2.19-2.044-2.19-1.205 0-1.967.876-2.073 2.19h4.117zM8.604 10.31c1.234-.31 2.397-.814 2.397-2.5C11.001 5.5 9.5 4 6.5 4H0v16h7c3 0 5-1.5 5-4 0-2-1.396-3.19-3.396-3.69zm-4.604-4h2.5c.829 0 1.5.671 1.5 1.5S7.329 9.31 6.5 9.31H4V6.31zm3 9H4v-3h3c.829 0 1.5.671 1.5 1.5S7.829 15.31 7 15.31z"/></svg>
+  </a>
+  <a href="https://www.linkedin.com/in/prekshadugar/" target="_blank" class="mobile-bottombar-icon" title="LinkedIn">
+    <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+  </a>
+  <a href="mailto:prekshadugar1840@gmail.com" class="mobile-bottombar-email">SEND E-MAIL</a>
+  <div class="mobile-bottombar-copy">©</div>
+</div>
+
+<div class="page">
+
+  <!-- ── LEFT NAV ── -->
+  <div id="left-nav" style="position:absolute;left:0;top:0;bottom:0;width:190px;z-index:10;">
+    <div class="col-preksha" onclick="location.href='index.html'" style="cursor:pointer;">
+      <span class="preksha-label">PREKSHA</span>
+    </div>
+    <div class="col-work">
+      <a href="work.html" class="work-label">WORK</a>
+    </div>
+    <div class="col-art">
+      <a href="art.html" class="nav-label">ART</a>
+    </div>
+    <div class="col-about">
+      <a href="about.html" class="nav-label">ABOUT</a>
+    </div>
+  </div>
+
+  <!-- ── RIGHT SIDEBAR ── -->
+  <div class="contacts-sidebar">
+    <a href="https://www.behance.net/prekshadugar" target="_blank" class="social-link" title="Behance">
+      <svg viewBox="0 0 24 24"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.513-1.987-5.513-5.998 0-4.013 2.357-6.002 5.424-6.002 3.062 0 4.97 1.973 5.346 4.975.07.5.097 1.096.094 1.91H15.22c.138 2.4 1.611 2.54 2.397 2.54.737 0 1.38-.432 1.59-1.425h4.52zm-4.738-3.637c-.094-1.54-1.033-2.19-2.044-2.19-1.205 0-1.967.876-2.073 2.19h4.117zM8.604 10.31c1.234-.31 2.397-.814 2.397-2.5C11.001 5.5 9.5 4 6.5 4H0v16h7c3 0 5-1.5 5-4 0-2-1.396-3.19-3.396-3.69zm-4.604-4h2.5c.829 0 1.5.671 1.5 1.5S7.329 9.31 6.5 9.31H4V6.31zm3 9H4v-3h3c.829 0 1.5.671 1.5 1.5S7.829 15.31 7 15.31z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/prekshadugar/" target="_blank" class="social-link" title="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="mailto:prekshadugar1840@gmail.com" class="sidebar-text">
+      <span>SEND E-MAIL</span>
+    </a>
+    <a href="#" class="sidebar-text">
+      <span>MADE WITH LOVE, PEER PRESSURE &amp; CLAUDE</span>
+    </a>
+    <div class="copyright-bar"><span>©</span></div>
+  </div>
+
+  <!-- ── FOLD 1: Hero ── -->
+  <div class="hero-breadcrumb" style="position:absolute;left:238px;top:40px;font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:18px;letter-spacing:0.08em;color:rgba(0,0,0,0.55);z-index:5;"><a href="work.html" class="breadcrumb-work-link" style="color:rgba(0,0,0,0.55);">WORK</a> / VEDANTA SPARK</div>
+  <img src="vedanta spark/fold 1.png" style="position:absolute;left:190px;top:0;width:1680px;height:1035px;object-fit:fill;display:block;">
+
+  <!-- ── FOLD 2: About / Info Bar ── -->
+  <div class="about-fold" style="position:absolute;left:0;top:1035px;width:1920px;height:607px;background:#FFFFFF;">
+    <div class="info-bar-row" style="position:absolute;left:269px;top:96px;width:1326px;display:flex;flex-direction:row;align-items:center;gap:211px;">
+
+      <!-- Left col: About + body + tags -->
+      <div style="width:750px;flex-shrink:0;display:flex;flex-direction:column;gap:9px;">
+        <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:48px;line-height:130%;color:#333333;">About</div>
+        <div style="display:flex;flex-direction:column;gap:41px;">
+          <div style="font-family:'Work Sans',sans-serif;font-weight:400;font-size:20px;line-height:150%;color:#333333;">Vedanta Spark is a joint initiative by FORGE Accelerator and Vedanta that focuses on driving innovation and transformation. The main goal of Vedanta Spark is to shape sustainability for a better future. Vedanta Spark is a global corporate innovation, accelerator & ventures program aiming to enable startups that leverage transformative & sustainable technologies to create large-scale impact in partnership with the group companies of Vedanta - the diversified energy & resources conglomerate with operations in 3 continents.</div>
+          <!-- Tags -->
+          <div style="display:flex;flex-direction:row;align-items:center;gap:10px;">
+            <div style="display:flex;justify-content:center;align-items:center;padding:8px 24px;background:#5A9A8E;border-radius:26px;flex-shrink:0;">
+              <span style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:18px;line-height:24px;color:#FFFFFF;">Sustainability</span>
+            </div>
+            <div style="display:flex;justify-content:center;align-items:center;padding:8px 24px;background:#5A9A8E;border-radius:26px;flex-shrink:0;">
+              <span style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:18px;line-height:24px;color:#FFFFFF;">Accelerator</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right col: meta grid -->
+      <div style="width:365px;flex-shrink:0;display:flex;flex-direction:column;gap:124px;">
+
+        <!-- Row 1: ROLE + YEAR -->
+        <div class="meta-grid" style="display:flex;flex-direction:row;justify-content:space-between;align-items:flex-start;width:365px;gap:158px;">
+          <div style="display:flex;flex-direction:column;gap:18px;width:161px;">
+            <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:18px;line-height:18px;text-transform:uppercase;color:#333333;opacity:0.7;">ROLE</div>
+            <div style="display:flex;flex-direction:column;gap:19px;font-family:'Work Sans',sans-serif;font-weight:400;font-size:16px;line-height:120%;color:#333333;">
+              <span>Research & Strategy</span>
+              <span>UI/UX Design</span>
+              <span>Project Management</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:18px;line-height:18px;text-transform:uppercase;color:#333333;opacity:0.7;">YEAR</div>
+            <div style="font-family:'Work Sans',sans-serif;font-weight:400;font-size:18px;line-height:21px;color:#333333;">2022</div>
+          </div>
+        </div>
+
+        <!-- Row 2: SECTOR -->
+        <div style="display:flex;flex-direction:column;gap:25px;width:306px;">
+          <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:18px;line-height:18px;text-transform:uppercase;color:#333333;opacity:0.7;">SECTOR</div>
+          <div style="display:flex;flex-direction:column;gap:19px;font-family:'Work Sans',sans-serif;font-weight:400;font-size:16px;line-height:120%;color:#333333;">
+            <span>Energy</span>
+            <span>Natural Resource & Technology</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── FOLD 3 ── -->
+  <img src="vedanta spark/fold 3.png" style="position:absolute;left:0;top:1642px;width:1920px;height:1013px;object-fit:fill;display:block;">
+
+  <!-- ── FOLD 4: Objectives ── -->
+  <div style="position:absolute;left:0;top:2655px;width:1920px;height:1247px;background:#FFFFFF;">
+
+    <!-- Header row: title + body -->
+    <div class="objectives-header-row" style="position:absolute;left:273px;top:120px;width:1306px;display:flex;flex-direction:row;align-items:center;gap:153px;">
+      <div style="width:542px;flex-shrink:0;font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:64px;line-height:150%;color:#000000;">Objectives of the website</div>
+      <div style="width:611px;flex-shrink:0;font-family:'Work Sans',sans-serif;font-weight:400;font-size:18px;line-height:150%;color:#333333;">The main objective of this redesign was to revamp the existing website for Vedanta Spark in order to better support the goals of the 2022 program. The focus was on creating a more effective and user-friendly website to meet the needs of the 2022 program.</div>
+    </div>
+
+    <!-- Cards: 2 columns -->
+    <div style="position:absolute;left:273px;top:392px;width:1193px;display:flex;flex-direction:row;align-items:flex-start;gap:143px;">
+
+      <!-- Left col: 3 items -->
+      <div style="width:520px;flex-shrink:0;display:flex;flex-direction:column;gap:71px;">
+
+        <!-- Clear & Comprehensive -->
+        <div style="display:flex;flex-direction:row;align-items:flex-start;gap:16px;">
+          <img src="vedanta spark/vuesax/bulk/arrow-right.svg" style="width:54px;height:54px;flex-shrink:0;margin-top:4px;display:block;">
+          <div>
+            <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:32px;line-height:42px;color:#166658;">Clear & Comprehensive:</div>
+            <div style="font-family:'Work Sans',sans-serif;font-weight:400;font-size:18px;line-height:150%;color:#333333;margin-top:8px;">The goal of this website was to present a clear and comprehensive overview of Vedanta Spark, which was lacking from the current site</div>
+          </div>
+        </div>
+
+        <!-- Streamline User Experience -->
+        <div style="display:flex;flex-direction:row;align-items:flex-start;gap:16px;">
+          <img src="vedanta spark/vuesax/bulk/arrow-right.svg" style="width:54px;height:54px;flex-shrink:0;margin-top:4px;display:block;">
+          <div>
+            <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:32px;line-height:42px;color:#166658;">Streamline User Experience:</div>
+            <div style="font-family:'Work Sans',sans-serif;font-weight:400;font-size:18px;line-height:150%;color:#333333;margin-top:8px;">Our goal with the redesign was to streamline the user experience and provide only relevant information that would help users make decisions and convert easily.</div>
+          </div>
+        </div>
+
+        <!-- Maximise Conversion -->
+        <div style="display:flex;flex-direction:row;align-items:flex-start;gap:16px;">
+          <img src="vedanta spark/vuesax/bulk/arrow-right.svg" style="width:54px;height:54px;flex-shrink:0;margin-top:4px;display:block;">
+          <div>
+            <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:32px;line-height:42px;color:#166658;">Maximise Conversion</div>
+            <div style="font-family:'Work Sans',sans-serif;font-weight:400;font-size:18px;line-height:150%;color:#333333;margin-top:8px;">By simplifying the user flow and focusing on conversion, we hope to maximize the number of conversions on the website.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right col: 2 items -->
+      <div style="width:530px;flex-shrink:0;display:flex;flex-direction:column;gap:57px;">
+
+        <!-- Scalability -->
+        <div style="display:flex;flex-direction:row;align-items:flex-start;gap:16px;">
+          <img src="vedanta spark/vuesax/bulk/arrow-right.svg" style="width:54px;height:54px;flex-shrink:0;margin-top:4px;display:block;">
+          <div>
+            <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:32px;line-height:42px;color:#166658;">Scalability:</div>
+            <div style="font-family:'Work Sans',sans-serif;font-weight:400;font-size:18px;line-height:150%;color:#333333;margin-top:8px;">Scalability is an important aspect of web design and development, as it allows the website to accommodate increased traffic and usage without negatively impacting performance.</div>
+          </div>
+        </div>
+
+        <!-- Building trust & credibility -->
+        <div style="display:flex;flex-direction:row;align-items:flex-start;gap:16px;">
+          <img src="vedanta spark/vuesax/bulk/arrow-right.svg" style="width:54px;height:54px;flex-shrink:0;margin-top:4px;display:block;">
+          <div>
+            <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:32px;line-height:42px;color:#166658;">Building trust & credibility</div>
+            <div style="font-family:'Work Sans',sans-serif;font-weight:400;font-size:18px;line-height:150%;color:#333333;margin-top:8px;">Empower potential customers and clients with a comprehensive and current insight into organization.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── FOLD 5 ── -->
+  <img src="vedanta spark/fold 5.png" style="position:absolute;left:0;top:3902px;width:1920px;height:860px;object-fit:fill;display:block;">
+
+  <!-- ── FOLD 6: Sitemap / Streamlining UX ── -->
+  <div style="position:absolute;left:0;top:4762px;width:1920px;height:1355px;background:#F3F7F6;">
+    <!-- Header row: 01 + title + body -->
+    <div style="position:absolute;left:264px;top:98px;width:1392px;display:flex;flex-direction:row;align-items:flex-start;gap:36px;">
+      <!-- Left: 01 + heading -->
+      <div style="display:flex;flex-direction:row;align-items:flex-start;gap:23px;">
+        <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:77px;line-height:103px;color:#2F670A;opacity:0.5;flex-shrink:0;">01</div>
+        <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:48px;line-height:64px;color:#2F670A;width:582px;">Streamlining User Experience</div>
+      </div>
+      <!-- Right: body -->
+      <div style="font-family:'Work Sans',sans-serif;font-weight:400;font-size:24px;line-height:150%;color:#000000;width:618px;padding-top:32px;">Elevating efficiency and satisfaction by streamlining UX for a seamless, user-centric journey.</div>
+    </div>
+    <!-- Sitemap image -->
+    <img src="vedanta spark/fold 6.png" style="position:absolute;left:calc(50% - 552px);top:352px;width:1104px;height:891px;object-fit:fill;display:block;">
+  </div>
+
+  <!-- ── FOLD 7 ── -->
+  <img src="vedanta spark/fold 7.png" style="position:absolute;left:0;top:6117px;width:1920px;height:1034px;object-fit:fill;display:block;">
+
+  <!-- ── FOLD 8 ── -->
+  <img src="vedanta spark/fold 8.png" style="position:absolute;left:0;top:7151px;width:1920px;height:3281px;object-fit:fill;display:block;">
+
+  <!-- ── FOLD 9 ── -->
+  <img src="vedanta spark/fold 9.png" style="position:absolute;left:0;top:10432px;width:1920px;height:1125px;object-fit:fill;display:block;">
+
+  <!-- ── FOLD 10 ── -->
+  <img src="vedanta spark/fold 10.png" style="position:absolute;left:0;top:11557px;width:1920px;height:1015px;object-fit:fill;display:block;">
+
+  <!-- ── FOLD 11 ── -->
+  <img src="vedanta spark/fold 11.png" style="position:absolute;left:0;top:12572px;width:1920px;height:1322px;object-fit:fill;display:block;">
+
+  <!-- ── FOLD 12: Credits / Footer ── -->
+  <div class="credits-footer-fold" style="position:absolute;left:0;top:13894px;width:1920px;height:1054px;background:#0B332C;">
+
+    <div class="stacked-items credits-list">
+    <!-- Credits label -->
+    <div style="position:absolute;left:717px;top:127px;font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:24px;line-height:32px;color:#FFFFFF;opacity:0.7;">Credits</div>
+
+    <!-- Name + arrow -->
+    <div style="position:absolute;left:717px;top:202px;display:flex;align-items:center;gap:12px;">
+      <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:24px;line-height:32px;color:#FFFFFF;">Harish Venkatesh</div>
+      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform:rotate(45deg)">
+        <path d="M2 12.5H22.5M22.5 12.5L12.5 2M22.5 12.5L12.5 23" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- Role -->
+    <div style="position:absolute;left:717px;top:259px;font-family:'Work Sans',sans-serif;font-style:italic;font-weight:400;font-size:20px;line-height:23px;color:#FFFFFF;opacity:0.8;">Visual Direction</div>
+    </div>
+
+    <!-- Go to top -->
+    <button onclick="window.scrollTo({top:0,behavior:'smooth'})" style="position:absolute;left:238px;top:662px;display:flex;align-items:center;gap:16px;background:none;border:none;padding:0;cursor:pointer;">
+      <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M25 40V10M25 10L12 23M25 10L38 23" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:32px;line-height:42px;color:#FFFFFF;">Go to top</span>
+    </button>
+
+    <!-- View all work -->
+    <a href="work.html" style="position:absolute;left:1438px;top:662px;display:flex;align-items:center;gap:16px;text-decoration:none;">
+      <span style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:32px;line-height:42px;color:#FFFFFF;">View all work</span>
+      <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 25H40M40 25L27 12M40 25L27 38" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+
+  </div>
+
+</div>
+
+<script>
+  const HERO_HEIGHT_PX = 1035;
+  let navVisible = true;
+
+  function isMobileLayout() { return document.documentElement.clientWidth <= 768; }
+
+  function stickyNav() {
+    if (isMobileLayout()) return;
+    const leftNav = document.getElementById('left-nav');
+    const rightNav = document.querySelector('.contacts-sidebar');
+    const scale = document.documentElement.clientWidth / 1920;
+    const scrollY = window.scrollY;
+    const navTop = scrollY / scale;
+    const navHeight = window.innerHeight / scale;
+
+    const inHero = scrollY < HERO_HEIGHT_PX * scale;
+
+    if (inHero && !navVisible) {
+      navVisible = true;
+      [leftNav, rightNav].forEach(el => {
+        if (!el) return;
+        el.style.transition = 'opacity 0.3s ease';
+        el.style.opacity = '1';
+        el.style.pointerEvents = '';
+      });
+    } else if (!inHero && navVisible) {
+      navVisible = false;
+      [leftNav, rightNav].forEach(el => {
+        if (!el) return;
+        el.style.transition = 'opacity 0.3s ease';
+        el.style.opacity = '0';
+        el.style.pointerEvents = 'none';
+      });
+    }
+
+    if (leftNav) {
+      leftNav.style.top = navTop + 'px';
+      leftNav.style.height = navHeight + 'px';
+    }
+    if (rightNav) {
+      rightNav.style.top = navTop + 'px';
+      rightNav.style.height = navHeight + 'px';
+    }
+  }
+
+  function scaleToFit() {
+    const page = document.querySelector('.page');
+    if (isMobileLayout()) {
+      page.style.transform = 'none';
+      page.style.height = 'auto';
+      document.body.style.height = 'auto';
+      return;
+    }
+    const scale = document.documentElement.clientWidth / 1920;
+    page.style.transformOrigin = 'top left';
+    page.style.transform = `scale(${scale})`;
+    document.body.style.height = (14948 * scale) + 'px';
+    stickyNav();
+    document.querySelectorAll('.nav-label, .work-label').forEach(el => { el.style.top = (window.innerHeight / 2 / scale) + 'px'; });
+    const pl = document.querySelector('.preksha-label'); if (pl) pl.style.top = (window.innerHeight / 2 / scale) + 'px';
+  }
+
+  scaleToFit();
+  window.addEventListener('resize', scaleToFit);
+  window.addEventListener('scroll', stickyNav);
+</script>
+</body>
+</html>

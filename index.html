@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preksha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  @view-transition { navigation: auto; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #000000;
+    font-family: 'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif;
+    overflow: hidden;
+  }
+
+  .page {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+    background: #000000;
+  }
+
+  /* ── EXPAND ANIMATION — only when coming from another page via PREKSHA click ── */
+  @keyframes expandPreksha { from { width: 55px; } to { width: 160px; } }
+  @keyframes expandFont    { from { font-size: 36px; } to { font-size: 120px; } }
+  @keyframes shiftWork     { from { left: 100px; } to { left: 160px; } }
+  @keyframes shiftArt      { from { left: 145px; } to { left: 205px; } }
+  @keyframes shiftAbout    { from { left: 190px; } to { left: 250px; } }
+  @keyframes shiftContent  { from { left: 235px; } to { left: 295px; } }
+
+  .do-expand .col-preksha  { animation: expandPreksha 0.5s ease-in-out both; }
+  .do-expand .preksha-label{ animation: expandFont    0.5s ease-in-out both; }
+  .do-expand .col-work     { animation: shiftWork     0.5s ease-in-out both; }
+  .do-expand .col-art      { animation: shiftArt      0.5s ease-in-out both; }
+  .do-expand .col-about    { animation: shiftAbout    0.5s ease-in-out both; }
+  .do-expand .main-content { animation: shiftContent  0.5s ease-in-out both; }
+
+  /* ── LEFT NAV ── */
+  .col-preksha {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 160px;
+    background: #FFF5EB;
+    border-right: 1px solid rgba(0,0,0,0.5);
+    z-index: 10;
+    cursor: pointer;
+  }
+  .preksha-label {
+    position: absolute;
+    left: 50%;
+    font-family: 'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif;
+    font-weight: 500;
+    font-size: 120px;
+    letter-spacing: 0.02em;
+    color: #000;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: translate(-50%, -50%) rotate(180deg);
+    user-select: none;
+    line-height: 1;
+  }
+
+  .col-work {
+    position: absolute;
+    left: 160px; top: 0; bottom: 0;
+    width: 45px;
+    background: #FFF5EB;
+    border-right: 1px solid rgba(0,0,0,0.5);
+    z-index: 10;
+  }
+  .col-art {
+    position: absolute;
+    left: 205px; top: 0; bottom: 0;
+    width: 45px;
+    background: #FFF5EB;
+    border-right: 1px solid rgba(0,0,0,0.5);
+    z-index: 10;
+  }
+  .col-overlay { position: absolute; inset: 0; display: block; z-index: 2; }
+  .col-about {
+    position: absolute;
+    left: 250px; top: 0; bottom: 0;
+    width: 45px;
+    background: #FFF5EB;
+    border-right: 1px solid rgba(0,0,0,0.5);
+    z-index: 10;
+  }
+
+  .nav-label {
+    position: absolute;
+    top: 450px; left: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px; font-weight: 400;
+    color: #000;
+    text-decoration: none;
+  }
+
+  /* ── RIGHT SIDEBAR ── */
+  .contacts-sidebar {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 50px;
+    background: #FFF5EB;
+    border-left: 1px solid rgba(0,0,0,0.5);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+  }
+  .social-link {
+    width: 50px; height: 50px;
+    display: flex; align-items: center; justify-content: center;
+    border-bottom: 1px solid rgba(0,0,0,0.5);
+    text-decoration: none; color: #000;
+    background: #FFF5EB; flex-shrink: 0;
+  }
+  .social-link svg { width: 18px; height: 18px; fill: #000; }
+  .sidebar-text {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    border-bottom: 1px solid rgba(0,0,0,0.5);
+    cursor: pointer; text-decoration: none; overflow: hidden;
+  }
+  .sidebar-text span {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.12em;
+    color: #000; white-space: nowrap;
+    transform: rotate(-90deg); display: block; text-align: center;
+  }
+  .copyright-bar {
+    width: 50px; height: 50px;
+    background: #FFF5EB;
+    border-top: 1px solid rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .copyright-bar span { font-family: 'Inter', sans-serif; font-size: 20px; color: #000; }
+
+  /* ── HOVER STATES ── */
+  .col-work:hover, .col-art:hover, .col-about:hover { background: #000; cursor: pointer; }
+  .col-work:hover .nav-label, .col-art:hover .nav-label, .col-about:hover .nav-label { color: #fff; }
+  .social-link:hover { background: #000 !important; }
+  .social-link:hover svg { fill: #fff; }
+  .sidebar-text:hover { background: #000 !important; }
+  .sidebar-text:has(.no-hover-text):hover { background: #FFF5EB !important; cursor: default; }
+  .sidebar-text:hover span { color: #fff; }
+  .sidebar-text:has(.no-hover-text):hover span { color: #000; }
+
+    /* ── VIEW TRANSITION NAMES ── */
+
+  .col-work          { view-transition-name: nav-work; }
+  .col-art           { view-transition-name: nav-art; }
+  .col-about         { view-transition-name: nav-about; }
+
+
+  /* ── MAIN CONTENT ── */
+  .main-content {
+    position: absolute;
+    left: 295px; right: 50px;
+    top: 0; bottom: 0;
+    background: #000000 url('work/bg.png') center center / cover no-repeat;
+    overflow: hidden;
+  }
+
+  #physicsCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .hero-title {
+    position: absolute;
+    top: 36%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    pointer-events: none;
+    user-select: none;
+    text-align: center;
+    width: 95%;
+  }
+
+  .hero-title h1 {
+    font-family: 'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif;
+    font-size: 94px;
+    font-weight: 400;
+    color: #fff;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .hero-title .last-line {
+    position: relative;
+    display: inline-block;
+  }
+
+  .hero-title .last-line h1 {
+    display: block;
+  }
+
+  .hero-title .sub-desc {
+    position: absolute;
+    left: calc(100% + 24px);
+    bottom: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.55;
+    width: 220px;
+    letter-spacing: 0.01em;
+    text-align: left;
+  }
+
+  /* ── MOBILE NAV (top bar + bottom bar, replaces side columns) ── */
+  .mobile-topbar, .mobile-bottombar { display: none; }
+
+  @media (max-width: 768px) {
+    .col-preksha, .col-work, .col-art, .col-about, .contacts-sidebar { display: none !important; }
+    .page {
+      position: fixed !important;
+      inset: 88px 0 44px 0 !important;
+      width: auto !important;
+      height: auto !important;
+      transform: none !important;
+    }
+    .main-content { left: 0 !important; right: 0 !important; top: 0 !important; bottom: 0 !important; }
+
+    .hero-title { width: 90% !important; }
+    .hero-title h1 { font-size: 38px !important; white-space: normal !important; }
+    .hero-title h1[style*="margin-left"] { margin-left: 0 !important; }
+    .hero-title .sub-desc {
+      position: static !important;
+      width: 100% !important;
+      margin: 14px auto 0 !important;
+      text-align: center !important;
+      font-size: 13px !important;
+    }
+
+    .mobile-topbar {
+      display: block;
+      position: fixed; top: 0; left: 0;
+      width: 100vw; max-width: 100vw;
+      background: #FFF5EB;
+      border-bottom: 1px solid rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+    .mobile-topbar-logo {
+      display: flex; align-items: center; justify-content: center;
+      height: 44px;
+      border-bottom: 1px solid rgba(0,0,0,0.5);
+      font-family: 'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif;
+      font-weight: 500; font-size: 18px; letter-spacing: 0.06em;
+      color: #000; cursor: pointer;
+    }
+    .mobile-menu-toggle {
+      display: flex; align-items: center; justify-content: center;
+      width: 100%; height: 44px;
+      border-bottom: 1px solid rgba(0,0,0,0.5);
+      background: none; border-left: none; border-right: none; border-top: none; padding: 0;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mobile-menu-toggle img { display: block; }
+
+    .mobile-topbar-menu {
+      display: none;
+      flex-direction: column;
+      border-top: 1px solid rgba(0,0,0,0.5);
+    }
+    .mobile-topbar.menu-open .mobile-topbar-menu { display: flex; }
+    .mobile-topbar-row {
+      display: flex; align-items: center; justify-content: center;
+      height: 44px;
+      border-bottom: 1px solid rgba(0,0,0,0.15);
+      font-family: 'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif;
+      text-decoration: none; color: #000;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mobile-topbar-row:last-child { border-bottom: none; }
+    .mobile-topbar-link { font-weight: 400; font-size: 13px; letter-spacing: 0.14em; }
+
+    .mobile-bottombar {
+      display: flex;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      height: 44px;
+      background: #FFF5EB;
+      border-top: 1px solid rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+    .mobile-bottombar-icon {
+      width: 44px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      border-right: 1px solid rgba(0,0,0,0.15);
+      color: #000; text-decoration: none;
+    }
+    .mobile-bottombar-icon svg { width: 16px; height: 16px; fill: #000; }
+    .mobile-bottombar-email {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
+      color: #000; text-decoration: none;
+      border-right: 1px solid rgba(0,0,0,0.15);
+    }
+    .mobile-bottombar-copy {
+      width: 44px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; color: #000;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── MOBILE NAV (top bar = left panel, bottom bar = right panel) ── -->
+<div class="mobile-topbar" id="mobileTopbar">
+  <div class="mobile-topbar-logo" onclick="location.href='index.html'">PREKSHA</div>
+  <button class="mobile-menu-toggle" onclick="const open=document.getElementById('mobileTopbar').classList.toggle('menu-open'); document.getElementById('menuToggleIcon').src = open ? 'cross.svg' : 'hamburger.svg';" aria-label="Toggle menu">
+    <img id="menuToggleIcon" src="hamburger.svg" alt="" width="16" height="16">
+  </button>
+  <div class="mobile-topbar-menu">
+    <a href="work.html" class="mobile-topbar-row mobile-topbar-link">WORK</a>
+    <a href="art.html" class="mobile-topbar-row mobile-topbar-link">ART</a>
+    <a href="about.html" class="mobile-topbar-row mobile-topbar-link">ABOUT</a>
+  </div>
+</div>
+<div class="mobile-bottombar">
+  <a href="https://www.behance.net/prekshadugar" target="_blank" class="mobile-bottombar-icon" title="Behance">
+    <svg viewBox="0 0 24 24"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.513-1.987-5.513-5.998 0-4.013 2.357-6.002 5.424-6.002 3.062 0 4.97 1.973 5.346 4.975.07.5.097 1.096.094 1.91H15.22c.138 2.4 1.611 2.54 2.397 2.54.737 0 1.38-.432 1.59-1.425h4.52zm-4.738-3.637c-.094-1.54-1.033-2.19-2.044-2.19-1.205 0-1.967.876-2.073 2.19h4.117zM8.604 10.31c1.234-.31 2.397-.814 2.397-2.5C11.001 5.5 9.5 4 6.5 4H0v16h7c3 0 5-1.5 5-4 0-2-1.396-3.19-3.396-3.69zm-4.604-4h2.5c.829 0 1.5.671 1.5 1.5S7.329 9.31 6.5 9.31H4V6.31zm3 9H4v-3h3c.829 0 1.5.671 1.5 1.5S7.829 15.31 7 15.31z"/></svg>
+  </a>
+  <a href="https://www.linkedin.com/in/prekshadugar/" target="_blank" class="mobile-bottombar-icon" title="LinkedIn">
+    <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+  </a>
+  <a href="mailto:prekshadugar1840@gmail.com" class="mobile-bottombar-email">SEND E-MAIL</a>
+  <div class="mobile-bottombar-copy">©</div>
+</div>
+
+<div class="page">
+
+  <!-- ── LEFT NAV ── -->
+  <div class="col-preksha">
+    <span class="preksha-label">PREKSHA</span>
+  </div>
+  <div class="col-work" style="cursor:pointer;">
+    <a href="work.html" class="col-overlay"></a>
+    <span class="nav-label">WORK</span>
+  </div>
+  <div class="col-art" style="cursor:pointer;">
+    <a href="art.html" class="col-overlay"></a>
+    <span class="nav-label">ART</span>
+  </div>
+  <div class="col-about" style="cursor:pointer;">
+    <a href="about.html" class="col-overlay"></a>
+    <span class="nav-label">ABOUT</span>
+  </div>
+
+  <!-- ── MAIN ── -->
+  <div class="main-content" id="mainContent">
+    <canvas id="physicsCanvas"></canvas>
+    <div class="hero-title">
+      <h1>DESIGNER</h1>
+      <h1 style="margin-left: -140px;">CONSULTANT</h1>
+      <div class="last-line">
+        <h1>STRATEGIST</h1>
+        <p class="sub-desc">Turning user insights into experiences that enhance products & grow businesses.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RIGHT SIDEBAR ── -->
+  <div class="contacts-sidebar">
+    <a href="https://www.behance.net/prekshadugar" target="_blank" class="social-link" title="Behance">
+      <svg viewBox="0 0 24 24"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.513-1.987-5.513-5.998 0-4.013 2.357-6.002 5.424-6.002 3.062 0 4.97 1.973 5.346 4.975.07.5.097 1.096.094 1.91H15.22c.138 2.4 1.611 2.54 2.397 2.54.737 0 1.38-.432 1.59-1.425h4.52zm-4.738-3.637c-.094-1.54-1.033-2.19-2.044-2.19-1.205 0-1.967.876-2.073 2.19h4.117zM8.604 10.31c1.234-.31 2.397-.814 2.397-2.5C11.001 5.5 9.5 4 6.5 4H0v16h7c3 0 5-1.5 5-4 0-2-1.396-3.19-3.396-3.69zm-4.604-4h2.5c.829 0 1.5.671 1.5 1.5S7.329 9.31 6.5 9.31H4V6.31zm3 9H4v-3h3c.829 0 1.5.671 1.5 1.5S7.829 15.31 7 15.31z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/prekshadugar/" target="_blank" class="social-link" title="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="mailto:prekshadugar1840@gmail.com" class="sidebar-text">
+      <span>SEND E-MAIL</span>
+    </a>
+    <a href="#" class="sidebar-text">
+      <span class="no-hover-text">MADE WITH LOVE, PEER PRESSURE & CLAUDE</span>
+    </a>
+    <div class="copyright-bar"><span>©</span></div>
+  </div>
+
+</div>
+<script>
+  // ── CANVAS PHYSICS (Verlet, matching reference) ──
+  const LABELS = [
+    ['UI/UX', 'DESIGN'],
+    ['USER', 'RESEARCH'],
+    ['PRODUCT', 'STRATEGY'],
+    ['DESIGN', 'SYSTEMS'],
+    ['PROTOTYPING'],
+    ['CONVERSION', 'OPTIMIZATION'],
+    ['WEBSITE', 'DESIGN'],
+    ['INTERACTION', 'DESIGN'],
+    ['INFORMATION', 'ARCHITECTURE'],
+    ['HIGH', 'CONVERSION', 'LANDING PAGES'],
+    ['APP', 'DESIGN'],
+    ['DATA-DRIVEN', 'DESIGN'],
+    ['UX AUDIT'],
+    ['CONTENT', 'STRATEGY'],
+    ['VISUAL', 'DIRECTION'],
+  ];
+
+  const canvas = document.getElementById('physicsCanvas');
+  const ctx    = canvas.getContext('2d');
+  const cont   = document.getElementById('mainContent');
+
+  const GRAVITY_FALL   = 0.5;   // fast gravity while falling
+  const GRAVITY_SETTLE = 0.08;  // gentler after landed
+  const DAMPING        = 0.52;  // wall/floor bounce damping
+  const FRICTION       = 0.985; // per-frame velocity friction
+
+  let gravity = GRAVITY_FALL;
+  let fallen  = 0;
+  let mouse   = { x: 0, y: 0, over: false };
+  let dragged = null;
+
+  class Ball {
+    constructor(x, y, r, lines) {
+      this.x  = x;  this.y  = y;
+      this.px = x;  this.py = y + 0.1; // slight downward vel
+      this.r  = r;  this.baseR = r;  this.targetR = r;
+      this.lines  = lines;
+      this.hover  = false;
+      this.isDrag = false;
+    }
+
+    applyForce(dt2) {
+      if (this.isDrag) return;
+      this.py -= gravity * dt2;  // gravity = downward force on py makes y increase
+    }
+
+    verlet() {
+      if (this.isDrag) return;
+      const nx = 2*this.x - this.px;
+      const ny = 2*this.y - this.py;
+      this.px = this.x; this.py = this.y;
+      this.x  = nx;     this.y  = ny;
+    }
+
+    constrain(W, H) {
+      if (this.isDrag) return;
+      const bounce = DAMPING;
+      if (this.x - this.r < 0)   { const v = this.x - this.px; this.x = this.r;   this.px = this.x + v * bounce; }
+      if (this.x + this.r > W)   { const v = this.x - this.px; this.x = W-this.r; this.px = this.x + v * bounce; }
+      if (this.y - this.r < 0)   { const v = this.y - this.py; this.y = this.r;   this.py = this.y + v * bounce; }
+      if (this.y + this.r > H)   { const v = this.y - this.py; this.y = H-this.r; this.py = this.y + v * bounce; this.x += (this.px - this.x) * 0.05; } // floor friction
+    }
+
+    draw(ctx) {
+      // smooth radius animation (grow on drag, shrink on release)
+      this.r += (this.targetR - this.r) * 0.15;
+
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+
+      if (this.hover) {
+        ctx.fillStyle = '#fff';
+        ctx.fill();
+      } else {
+        ctx.strokeStyle = 'rgba(255,255,255,0.38)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // text — start from the radius-based size, then shrink further if the
+      // longest line would spill past the circle at this ball's actual size
+      let fs = Math.max(10, this.r * 0.215);
+      ctx.font = `400 ${fs}px Inter, sans-serif`;
+      const maxTextWidth = this.r * 1.7;
+      const widest = this.lines.reduce((w, line) => Math.max(w, ctx.measureText(line).width), 0);
+      if (widest > maxTextWidth) {
+        fs *= maxTextWidth / widest;
+        fs = Math.max(6, fs);
+        ctx.font = `400 ${fs}px Inter, sans-serif`;
+      }
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = this.hover ? 'rgba(0,0,0,0.85)' : 'rgba(255,255,255,0.75)';
+
+      const lh = fs * 1.35;
+      if (this.lines.length === 1) {
+        ctx.fillText(this.lines[0], this.x, this.y);
+      } else if (this.lines.length === 2) {
+        ctx.fillText(this.lines[0], this.x, this.y - lh / 2);
+        ctx.fillText(this.lines[1], this.x, this.y + lh / 2);
+      } else {
+        ctx.fillText(this.lines[0], this.x, this.y - lh);
+        ctx.fillText(this.lines[1], this.x, this.y);
+        ctx.fillText(this.lines[2], this.x, this.y + lh);
+      }
+    }
+  }
+
+  let balls = [];
+
+  function resize() {
+    canvas.width  = cont.offsetWidth;
+    canvas.height = cont.offsetHeight;
+  }
+
+  function spawnBalls() {
+    balls = [];
+    const W = canvas.width;
+    const mobile = isMobileLayout();
+    LABELS.forEach((lines, i) => {
+      const r  = mobile ? (26 + Math.random() * 10) : (68 + Math.random() * 16);
+      const x  = (r + 4) + Math.random() * Math.max(1, W - (r + 4) * 2);
+      const y  = -r - i * 90;
+      setTimeout(() => balls.push(new Ball(x, y, r, lines)), i * 260);
+    });
+  }
+
+  function resolveCollisions() {
+    for (let i = 0; i < balls.length; i++) {
+      for (let j = i + 1; j < balls.length; j++) {
+        const a = balls[i], b = balls[j];
+        const dx = b.x - a.x, dy = b.y - a.y;
+        const d  = Math.sqrt(dx*dx + dy*dy);
+        const min = a.r + b.r + 1;
+        if (d < min && d > 0.001) {
+          const nx = dx/d, ny = dy/d;
+          const push = (min - d) * 0.5;
+          if (!a.isDrag) { a.x -= nx*push; a.y -= ny*push; }
+          if (!b.isDrag) { b.x += nx*push; b.y += ny*push; }
+        }
+      }
+    }
+  }
+
+  // ── GLOW ──
+  let glowX = 0.5, glowY = 0.35;
+  let driftT = 0;
+
+  // ── ANIMATED NOISE BACKGROUND ──
+  // Small offscreen buffer of hashed value-noise, upscaled with bilinear
+  // smoothing so it reads as a slow, softly moving grey haze on black.
+  const bgBuffer    = document.createElement('canvas');
+  const bgBufferCtx = bgBuffer.getContext('2d');
+  const BG_SCALE    = 0.05;
+  let bgTime = 0;
+  let sweepAngle = 0;
+
+  function hash2(x, y) {
+    const s = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
+    return s - Math.floor(s);
+  }
+
+  function valueNoise(x, y) {
+    const xi = Math.floor(x), yi = Math.floor(y);
+    const xf = x - xi, yf = y - yi;
+    const u = xf * xf * (3 - 2 * xf);
+    const v = yf * yf * (3 - 2 * yf);
+    const a = hash2(xi, yi),     b = hash2(xi + 1, yi);
+    const c = hash2(xi, yi + 1), d = hash2(xi + 1, yi + 1);
+    return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+  }
+
+  function drawBackground(W, H) {
+    const bw = Math.max(28, Math.round(W * BG_SCALE));
+    const bh = Math.max(18, Math.round(H * BG_SCALE));
+    if (bgBuffer.width !== bw || bgBuffer.height !== bh) {
+      bgBuffer.width  = bw;
+      bgBuffer.height = bh;
+    }
+
+    bgTime += 0.00045; // near-imperceptible drift — you should have to watch for a few seconds to notice it moved at all
+
+    const img  = bgBufferCtx.createImageData(bw, bh);
+    const data = img.data;
+    for (let y = 0; y < bh; y++) {
+      for (let x = 0; x < bw; x++) {
+        // low frequency -> large, soft, slow-moving fields (not fine grain)
+        const nx = (x / bw) * 1.1 + bgTime;
+        const ny = (y / bh) * 1.1 - bgTime * 0.6;
+        let n  = valueNoise(nx, ny);
+        n += 0.4 * valueNoise(nx * 2.0 + 9.1, ny * 2.0 + 3.4);
+        n /= 1.4;
+
+        const base = 3, peak = 12; // low contrast — a hint of life, not a visible pattern
+        const v = base + n * (peak - base);
+        const i = (y * bw + x) * 4;
+        data[i] = v; data[i + 1] = v; data[i + 2] = v + 2; data[i + 3] = 90;
+      }
+    }
+    bgBufferCtx.putImageData(img, 0, 0);
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(0,0,0,0.55)';
+    ctx.fillRect(0, 0, W, H);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(bgBuffer, 0, 0, bw, bh, 0, 0, W, H);
+  }
+
+  function loop() {
+    const W = canvas.width, H = canvas.height;
+    drawBackground(W, H);
+    // check if all balls have settled past halfway
+    if (fallen < LABELS.length && balls.length === LABELS.length) {
+      let below = balls.filter(b => b.y > H * 0.4).length;
+      if (below >= LABELS.length) { fallen = LABELS.length; gravity = GRAVITY_SETTLE; }
+    }
+
+    balls.forEach(b => {
+      if (b.isDrag) {
+        // track previous for throw on release
+        b.px = b.x; b.py = b.y;
+        b.x  = mouse.x; b.y = mouse.y;
+      } else {
+        b.applyForce(1);
+        b.verlet();
+        b.constrain(W, H);
+      }
+    });
+
+    resolveCollisions();
+    balls.forEach(b => b.draw(ctx));
+
+    requestAnimationFrame(loop);
+  }
+
+  // ── MOUSE HELPERS ──
+  function canvasMouse(e) {
+    const rect  = cont.getBoundingClientRect();
+    const scale = isMobileLayout() ? 1 : (document.documentElement.clientWidth / 1920);
+    const point = (e.touches && e.touches[0]) ? e.touches[0] : e;
+    return {
+      x: (point.clientX - rect.left) / scale,
+      y: (point.clientY - rect.top)  / scale,
+    };
+  }
+
+  // Mouse enters canvas → enable hover detection
+  canvas.addEventListener('mouseenter', () => { mouse.over = true; });
+  canvas.addEventListener('mouseleave', () => {
+    mouse.over = false;
+    balls.forEach(b => { b.hover = false; });
+    canvas.style.cursor = 'default';
+  });
+
+  // Mousemove → update position + hover state
+  canvas.addEventListener('mousemove', e => {
+    const m = canvasMouse(e);
+    mouse.x = m.x; mouse.y = m.y;
+
+    // update hover for all balls
+    let anyhover = false;
+    balls.forEach(b => {
+      const dx = mouse.x - b.x, dy = mouse.y - b.y;
+      b.hover = Math.sqrt(dx*dx + dy*dy) < b.r;
+      if (b.hover) anyhover = true;
+    });
+    canvas.style.cursor = anyhover ? 'grab' : 'default';
+
+    // move dragged ball
+    if (dragged) {
+      dragged.x = mouse.x;
+      dragged.y = mouse.y;
+    }
+  });
+
+  // Mousedown → pick up hovered ball, grow it
+  canvas.addEventListener('mousedown', e => {
+    const m = canvasMouse(e);
+    mouse.x = m.x; mouse.y = m.y;
+    for (const b of balls) {
+      const dx = mouse.x - b.x, dy = mouse.y - b.y;
+      if (Math.sqrt(dx*dx + dy*dy) < b.r) {
+        dragged      = b;
+        b.isDrag     = true;
+        b.hover      = true;
+        b.targetR    = b.baseR * 1.38; // grow on drag
+        canvas.style.cursor = 'grabbing';
+        break;
+      }
+    }
+    e.preventDefault();
+  });
+
+  // Mouseup → drop ball, restore size, give it throw velocity
+  document.addEventListener('mouseup', () => {
+    if (dragged) {
+      const b      = dragged;
+      b.isDrag     = false;
+      b.targetR    = b.baseR;
+      // throw: velocity from previous position difference
+      const vx = b.x - b.px;
+      const vy = b.y - b.py;
+      b.px = b.x - vx * 0.6;
+      b.py = b.y - vy * 0.6;
+      dragged = null;
+      canvas.style.cursor = 'grab';
+    }
+  });
+
+  // ── TOUCH (mirrors the mouse handlers above for real touchscreens) ──
+  canvas.addEventListener('touchstart', e => {
+    const m = canvasMouse(e);
+    mouse.x = m.x; mouse.y = m.y; mouse.over = true;
+    for (const b of balls) {
+      const dx = mouse.x - b.x, dy = mouse.y - b.y;
+      if (Math.sqrt(dx*dx + dy*dy) < b.r) {
+        dragged   = b;
+        b.isDrag  = true;
+        b.hover   = true;
+        b.targetR = b.baseR * 1.38;
+        break;
+      }
+    }
+    if (dragged) e.preventDefault();
+  }, { passive: false });
+
+  canvas.addEventListener('touchmove', e => {
+    const m = canvasMouse(e);
+    mouse.x = m.x; mouse.y = m.y;
+    if (dragged) {
+      dragged.x = mouse.x;
+      dragged.y = mouse.y;
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  canvas.addEventListener('touchend', () => {
+    mouse.over = false;
+    balls.forEach(b => { b.hover = false; });
+    if (dragged) {
+      const b   = dragged;
+      b.isDrag  = false;
+      b.targetR = b.baseR;
+      const vx = b.x - b.px;
+      const vy = b.y - b.py;
+      b.px = b.x - vx * 0.6;
+      b.py = b.y - vy * 0.6;
+      dragged = null;
+    }
+  });
+
+  // ── SCALE ──
+  function isMobileLayout() { return document.documentElement.clientWidth <= 768; }
+
+  function scaleToFit() {
+    const page  = document.querySelector('.page');
+    if (isMobileLayout()) {
+      // Mobile: .page is pinned between the fixed top/bottom bars via CSS
+      // (position:fixed; inset), so it's already sized to the real
+      // viewport — no transform/height math needed, just sync the canvas.
+      page.style.transform = 'none';
+      page.style.height = '';
+      document.body.style.height = '';
+      document.body.style.width = '';
+      document.body.style.background = '#000000';
+      resize();
+      return;
+    }
+    const scale = document.documentElement.clientWidth / 1920;
+    // make page tall enough so the scaled height fills the full viewport
+    const minH  = Math.ceil(document.documentElement.clientHeight / scale);
+    page.style.height = Math.max(1080, minH) + 'px';
+    page.style.transformOrigin = 'top left';
+    page.style.transform = `scale(${scale})`;
+    document.body.style.height = document.documentElement.clientHeight + 'px';
+    document.body.style.width  = document.documentElement.clientWidth  + 'px';
+    document.body.style.background = '#000000';
+    // resize canvas AFTER page height is set so canvas pixels match container
+    resize();
+    document.querySelectorAll('.nav-label').forEach(el => { el.style.top = (document.documentElement.clientHeight / 2 / scale) + 'px'; });
+    const prekshaLabel = document.querySelector('.preksha-label');
+    if (prekshaLabel) prekshaLabel.style.top = (document.documentElement.clientHeight * 0.50 / scale) + 'px';
+    // PREKSHA: pin vertical center to viewport center
+    const preLabel = document.querySelector('.preksha-label');
+    if (preLabel) preLabel.parentElement.style.justifyContent = 'center';
+  }
+
+  scaleToFit();
+  spawnBalls();
+  loop();
+  window.addEventListener('resize', scaleToFit);
+</script>
+</body>
+</html>
