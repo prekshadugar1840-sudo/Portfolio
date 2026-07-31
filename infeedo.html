@@ -176,6 +176,7 @@
 
   /* ── MOBILE NAV (top bar + bottom bar, replaces side columns) ── */
   .mobile-topbar, .mobile-bottombar { display: none; }
+  .mobile-section-gap { display: none; }
 
   @media (max-width: 768px) {
     #left-nav, .contacts-sidebar { display: none !important; }
@@ -211,6 +212,7 @@
       column-gap: 20px !important;
       row-gap: 24px !important;
       height: auto !important;
+      margin-top: 32px !important;
     }
     .meta-grid > div { width: 100% !important; }
 
@@ -229,6 +231,19 @@
       position: static !important;
       margin-top: 32px !important;
     }
+    .mobile-section-gap {
+      display: block !important;
+      height: 32px !important;
+      background: #FAFDFF !important;
+    }
+    .page img.solution-strategies-img {
+      margin-left: -20px !important;
+      margin-right: -20px !important;
+      width: calc(100% + 40px) !important;
+      max-width: calc(100% + 40px) !important;
+    }
+    .numbered-heading-row { margin-top: 32px !important; }
+    .first-numbered-row { margin-top: 0 !important; }
     /* Credits section: tighter list spacing + smaller, more footer-appropriate type sizes */
     .credits-list { gap: 16px !important; }
     .credits-footer-fold [style*="font-size:24px"][style*="opacity:0.7"] { font-size: 14px !important; line-height: 1.4 !important; }
@@ -536,20 +551,24 @@
     </div>
   </div>
 
+  <div class="mobile-section-gap"></div>
+
   <!-- ── FOLD 5: Solution Strategies ── -->
   <div class="solution-strategies-fold" style="position:absolute;left:0;top:4163px;width:1920px;height:879px;">
-    <img src="infeedo/Fold 5.png" style="position:absolute;left:0;top:0;width:1920px;height:879px;object-fit:fill;display:block;">
-    <div style="position:absolute;left:1006px;top:160px;width:643px;display:flex;flex-direction:column;gap:52px;">
+    <div style="position:absolute;left:1006px;top:160px;width:643px;display:flex;flex-direction:column;gap:52px;z-index:2;">
       <div class="solution-strategies-text" style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:64px;line-height:150%;color:#FFFFFF;">Solution Strategies</div>
       <div class="solution-strategies-text" style="font-family:'Work Sans',sans-serif;font-weight:400;font-size:24px;line-height:150%;color:#FFFFFF;">Our team aimed to gain a deeper understanding of the company, its offerings, and the problems faced by the website to ensure the redesign was effective and met the needs of both the company and the user. Through both qualitative and quantitative methods, we gathered key information about the company and the website that helped inform the design process.</div>
     </div>
+    <img class="solution-strategies-img" src="infeedo/Fold 5.png" style="position:absolute;left:0;top:0;width:1920px;height:879px;object-fit:fill;display:block;z-index:1;">
   </div>
+
+  <div class="mobile-section-gap"></div>
 
   <!-- ── FOLD 6: Project Research & Discovery ── -->
   <div style="position:absolute;left:0;top:5042px;width:1920px;height:1528px;background:#FFFFFF;">
 
     <!-- Section header: "01" + title -->
-    <div style="position:absolute;left:263px;top:88px;display:flex;flex-direction:row;align-items:flex-start;gap:23px;">
+    <div class="numbered-heading-row first-numbered-row" style="position:absolute;left:263px;top:88px;display:flex;flex-direction:row;align-items:flex-start;gap:23px;">
       <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:77px;line-height:103px;color:#3E70D9;opacity:0.5;white-space:nowrap;">01</div>
       <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:48px;line-height:64px;color:#3E70D9;width:582px;">Project Research &amp; Discovery</div>
     </div>
@@ -610,7 +629,7 @@
     <div style="position:absolute;left:191px;top:184px;width:1489px;display:flex;flex-direction:row;align-items:flex-start;gap:139px;">
 
       <!-- Left: number + title -->
-      <div style="display:flex;flex-direction:row;align-items:flex-start;gap:17px;width:754px;flex-shrink:0;">
+      <div class="numbered-heading-row" style="display:flex;flex-direction:row;align-items:flex-start;gap:17px;width:754px;flex-shrink:0;">
         <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:77px;line-height:103px;color:#3E70D9;opacity:0.5;white-space:nowrap;">02</div>
         <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:48px;line-height:64px;color:#3E70D9;width:641px;">UX Revitalization: Streamlining Sitemap for Seamless Exploration</div>
       </div>
@@ -636,7 +655,7 @@
     <div style="position:absolute;left:191px;top:85px;width:1693px;display:flex;flex-direction:row;align-items:flex-start;gap:73px;">
 
       <!-- Left: number + title -->
-      <div style="display:flex;flex-direction:row;align-items:flex-start;gap:17px;width:561px;flex-shrink:0;">
+      <div class="numbered-heading-row" style="display:flex;flex-direction:row;align-items:flex-start;gap:17px;width:561px;flex-shrink:0;">
         <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:77px;line-height:103px;color:#3E70D9;opacity:0.5;white-space:nowrap;">03</div>
         <div style="font-family:'Futura','Century Gothic','Trebuchet MS',sans-serif;font-weight:500;font-size:48px;line-height:64px;color:#3E70D9;width:448px;">A Visual Language with a fresh face</div>
       </div>
